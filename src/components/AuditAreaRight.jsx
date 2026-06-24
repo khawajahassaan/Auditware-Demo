@@ -2,10 +2,29 @@ import { FiChevronDown, FiChevronRight, FiUser, FiCalendar, FiDownload, FiPaperc
 import { BsCheckCircleFill, BsLightningCharge } from "react-icons/bs";
 import { useParams } from "react-router-dom";
 import auditData from "../data/auditData.json";
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { fetchWorkdoneText } from '../store/workdoneSlice';
+
 
 const AuditAreaRight = () => {
+
+    const dispatch = useDispatch();
+    const workdoneTexts = useSelector((state) => state.workdone.texts);
+    const workdoneStatus = useSelector((state) => state.workdone.status);
+    useEffect(() => {
+        if (workdoneStatus === 'idle') {
+            dispatch(fetchWorkdoneText());
+        }
+    }, [workdoneStatus, dispatch]);
+
     const { id } = useParams();
     const currentAudit = auditData.find(item => item.id === id) || auditData.find(item => item.selected);
+    const currentIndex = currentAudit ? auditData.findIndex(item => item.id === currentAudit.id) : 0;
+
+    const currentWorkdoneText = workdoneTexts && workdoneTexts.length > 0
+        ? workdoneTexts[currentIndex]
+        : (workdoneStatus === 'loading' ? 'Loading workdone data from API...' : 'Failed to load data.');
 
     if (!currentAudit) {
         return (
@@ -177,7 +196,7 @@ const AuditAreaRight = () => {
                             <div className="mt-[20px] bg-[#f4f8fc] border border-[#9fc3e6] rounded-[6px] p-[16px] flex items-start gap-[16px] relative shadow-sm">
                                 <div className="bg-[#8bb4df] bg-opacity-30 text-[#0f6cbd] text-[12px] font-bold px-[8px] py-[4px] rounded-[4px] whitespace-nowrap">Workdone</div>
                                 <div className="text-[13px] text-[#4a4a4a] leading-[22px] pr-[20px]">
-                                    The procedures have been successfully completed ahead of the due date, ensuring timely delivery. All tasks were carried out in accordance with established quality standards and best practices. The outcomes reflect a strong commitment to efficiency, accuracy, and high-quality execution.
+                                    {currentWorkdoneText}
                                 </div>
                                 <div className="absolute right-[12px] bottom-[12px] text-[#a0a0a0] cursor-pointer border border-[#d1d1d1] rounded-[4px] p-[2px] bg-white">
                                     <BsLightningCharge className="text-[12px]" />
