@@ -2,18 +2,17 @@ import Navigation from "./Navigation";
 import AuditProgram from "./AuditProgram";
 import AuditArea from "./AuditArea";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
 
 const Body = () => {
     const location = useLocation();
-    const [activeTab, setActiveTab] = useState('Audit Program');
+    const activeTab = location.pathname === '/execution/observation' ? 'Observation' : 'Audit Program';
 
     return (
         <div className=" w-[calc(100%-40px)] h-[90%] bg-white rounded-[10px] ml-[12px] mr-[12px]">
             <Navigation />
-            {(location.pathname === '/' || location.pathname.startsWith('/audit/')) && (
+            {(location.pathname === '/execution/audit-program' || location.pathname.startsWith('/execution/audit-program/audit/') || location.pathname === '/execution/observation') && (
                 <>
-                    <AuditProgram activeTab={activeTab} setActiveTab={setActiveTab} />
+                    <AuditProgram activeTab={activeTab} />
                     {activeTab === 'Audit Program' ? (
                         <AuditArea />
                     ) : (
@@ -22,6 +21,12 @@ const Body = () => {
                         </div>
                     )}
                 </>
+            )}
+
+            {(location.pathname === '/') && (
+                <div className="flex items-center justify-center h-full text-gray-500">
+                    <h2>Empty Area</h2>
+                </div>
             )}
 
             {location.pathname === '/planning' && (

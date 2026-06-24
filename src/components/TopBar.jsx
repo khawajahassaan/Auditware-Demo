@@ -1,5 +1,6 @@
 import { TbMessage2Filled } from "react-icons/tb";
 import { FaBell } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 import logo from "../assets/logo.svg";
 
@@ -7,8 +8,8 @@ const TopBar = () => {
     return (
         <div className="flex justify-between items-center h-[35px] bg-[#f5f1f6]">
             <div className="flex items-center gap-[8px] pl-[10px]">
-                <img src={logo} className="h-[25px] w-[25px]" />
-                <span className="text-gray-500 font-bold text-[16px]">Audit Engagements</span>
+                <Link to="/"><img src={logo} className="h-[25px] w-[25px]" /></Link>
+                <Link to="/" className="text-gray-500 font-bold text-[16px]">Audit Engagements</Link>
             </div>
 
             <div className="flex items-center gap-4">

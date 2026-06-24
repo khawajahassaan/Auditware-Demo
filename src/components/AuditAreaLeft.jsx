@@ -37,7 +37,7 @@ const AuditAreaLeft = () => {
                     {filteredData.map((item, index) => (
                         <div
                             key={item.id}
-                            onClick={() => navigate(`/audit/${item.id}`)}
+                            onClick={() => navigate(`/execution/audit-program/audit/${item.id}`)}
                             className={`flex items-center justify-between py-[12px] pr-[16px] cursor-pointer ${index !== filteredData.length - 1 ? 'border-b border-[#e2e2e2]' : ''} ${id === item.id || (!id && item.selected) ? 'bg-[#edf5fd] border-l-[4px] border-l-[#0f6cbd] pl-[12px]' : 'bg-white pl-[16px]'}`}
                         >
                             <div className="flex items-center gap-[12px]">
